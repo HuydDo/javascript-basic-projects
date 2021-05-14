@@ -1,3 +1,7 @@
+//1. get only unique categories
+//2. iterate over categories return buttons
+//3. make sure to select buttons when they are available
+
 const menu = [
   {
     id: 1,
@@ -71,26 +75,61 @@ const menu = [
     img: "./images/item-9.jpeg",
     desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
   },
+  {
+    id: 10,
+    title: "steak",
+    category: "dinner",
+    price: 46.99,
+    img: "./images/item-10.jpeg",
+    desc: `skateboard fam synth authentic semiotics. Live-edge lyft af, edison bulb yuccie crucifix microdosing.`,
+  },
 ];
 
 const sectionCenter = document.querySelector('.section-center');
-const filterBtns = document.querySelectorAll('.filter-btn')
+const container = document.querySelector('.btn-container')
+
 
 //load items
 window.addEventListener('DOMContentLoaded', function(){
-  displayMenuItems(menu)
-})
+  displayMenuItems(menu);
+  displayMenuButtons();
+});
 
-// filter item
-filterBtns.forEach(function(btn){
+function displayMenuButtons(){
+  const categories = menu.reduce(function(values,item){
+    if(!values.includes(item.category)){
+      values.push(item.category)
+    }
+    return values
+  },['all'])
+  // console.log(categories)
+  const categoryBtns = categories.map(function(category){
+    return `<button class="filter-btn" type="button" data-id=${category}>${category}</button>`
+  }).join("")
+  // console.log(categoryBtns)
+  container.innerHTML = categoryBtns
+  // const filterBtns = document.querySelectorAll('.filter-btn')
+  const filterBtns = container.querySelectorAll('.filter-btn')
+  
+  // filter item
+ filterBtns.forEach(function(btn){
   btn.addEventListener('click',function(e){
     const category = e.currentTarget.dataset.id
     const menuCategory = menu.filter(function(menuItem){
-      return menuItem
-    })
-    console.log(menuCategory)
+      // console.log(menuItem.category)
+      if(menuItem.category === category){
+        return menuItem
+      }
+    });
+    // console.log(menuCategory)
+    if(category === 'all'){
+      displayMenuItems(menu)
+    } else {
+      displayMenuItems(menuCategory)
+    }
+   })
   })
-})
+}
 
 function displayMenuItems(menuItems){
   let displayMenu = menuItems.map(function(item){
@@ -100,7 +139,7 @@ function displayMenuItems(menuItems){
     <img src=${item.img} class="photo" alt=${item.img}>
     <div class="item-info">
      <header>
-       <h4>${item.title}}</h4>
+       <h4>${item.title}</h4>
        <h4 class="price">${item.price}</h4>
      </header> 
      <p class="item-text">${item.desc}</p>
