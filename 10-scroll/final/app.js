@@ -8,7 +8,7 @@
 const date = document.getElementById("date");
 date.innerHTML = new Date().getFullYear();
 
-// ********** close links ************
+// ********** close links  ***set up dynamic links ************
 const navToggle = document.querySelector(".nav-toggle");
 const linksContainer = document.querySelector(".links-container");
 const links = document.querySelector(".links");
