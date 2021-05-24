@@ -17,7 +17,6 @@ navToggle.addEventListener('click', function (){
   // linksContainer.classList.toggle("show-links");
   const containerHeight = linksContainer.getBoundingClientRect().height;
   const linksHeight = links.getBoundingClientRect().height;
-  // console.log(linksHeight)
   if(containerHeight === 0){
     linksContainer.style.height = `${linksHeight}px`;
   } else {
@@ -25,7 +24,21 @@ navToggle.addEventListener('click', function (){
   }
 });
 
+const navbar = document.getElementById('nav');
+const topLink = document.querySelector(".top-link");
 // ********** fixed navbar ************
+window.addEventListener('scroll',function(){
+  // console.log(window.pageYOffset)
+  const scrollHeight = window.pageYOffset;
+  const navHeight = navbar.getBoundingClientRect().height;
+  console.log(navHeight)
+  if (scrollHeight > navHeight){
+    navbar.classList.add('fixed-nav');
+  } else {
+    navbar.classList.remove('fixed-nav');
+  }
+
+})
 
 // ********** smooth scroll ************
 // select links
