@@ -29,9 +29,14 @@ function addItem(e){
   } else if (value !== '' && editFlag ){
     console.log('editing')
   }else {
-    alert.textContent = 'empty value'
-    alert.classList.add("alert-danger")
+    displayAlert("Please enter value", "danger")
   }
+}
+
+//display alert
+function displayAlert(text,action){
+  alert.textContent = text
+  alert.classList.add(`alert-${action}`)
 }
 // ****** LOCAL STORAGE **********
 
