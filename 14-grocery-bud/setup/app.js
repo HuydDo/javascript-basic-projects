@@ -61,7 +61,11 @@ function addItem(e) {
     // set back to default
     setBackToDefault();
   } else if (value !== "" && editFlag) {
-    console.log("editing");
+    editElement.innerHTML = value;
+    displayAlert("value change", "success");
+    // edit local storage
+    editLocalStorage(editID, value);
+    setBackToDefault();
   } else {
     displayAlert("Please enter value", "danger");
   }
@@ -97,10 +101,10 @@ function deleteItem(e) {
   const element = e.currentTarget.parentElement.parentElement;
   const id = element.dataset.id;
   list.removeChild(element);
-  if(list.children.length === 0){
-    container.classList.remove('show-container')
+  if (list.children.length === 0) {
+    container.classList.remove("show-container");
   }
-  displayAlert('item removed', 'danger');
+  displayAlert("item removed", "danger");
   setBackToDefault();
   // remove from local storage
   // removeFromLocalStorage(id);
@@ -114,7 +118,7 @@ function editItem(e) {
   grocery.value = editElement.innerHTML;
   editFlag = true;
   editID = element.dataset.id;
-  submitBtn.textContent = "edit"
+  submitBtn.textContent = "edit";
 }
 
 // set back to default
@@ -126,9 +130,36 @@ function setBackToDefault() {
 }
 // ****** LOCAL STORAGE **********
 function addToLocalStorage(id, value) {
-  // console.log("added to local storage");
+  const grocery = { id, value };
+  let items = getLocalStorage()
+  console.log(items)
+ items.push(grocery);
+ localStorage.setItem('list',JSON.stringify(items))
 }
-function removeFromLocalStorage(id){
 
+function removeFromLocalStorage(id) {
+  let items = getLocalStorage();
+  items = items.filter(function(item){
+    if(item.id !== id){
+      return item;
+    }
+  })
+  localStorage.setItem('list',JSON.stringify(items))
 }
+function editLocalStorate(id, value) {}
+function getLocalStorage(){
+  return localStorage.getItem("list")
+  ? JSON.parse(localStorage.getItem("list"))
+  : [];
+}
+  // localStorage API
+  // setItem
+  // getItem
+  // removeItem
+  // save as strings
+  // localStorage.setItem("orange",JSON.stringify(["item", "item2"]));
+  // const oranges = JSON.parse(localStorage.getItem("orange"))
+  // console.log(oranges);
+  // localStorage.removeItem("orage");
+
 // ****** SETUP ITEMS **********
